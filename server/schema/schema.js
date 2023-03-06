@@ -23,6 +23,11 @@ const Note = require('../models/Note');
 const EAlert = require('../models/EAlert');
 const Call = require('../models/Call');
 
+const VanItem = require('../models/VanItem');
+const Van = require('../models/Van');
+
+
+
 
 
 
@@ -72,6 +77,25 @@ const UserType = new GraphQLObjectType({
         }
     })
  });
+
+ const VanItemType = new GraphQLObjectType({
+    name: 'VanItem',
+    fields: () => ({
+        id:{ type: GraphQLID},
+        itemId:{ type: GraphQLString},
+        itemName:{ type: GraphQLString},
+        itemDescription:{ type: GraphQLString},
+        itemQuantity:{ type: GraphQLString},
+        itemImage:{ type: GraphQLString},
+        vanId: {
+            type: VanType,
+            resolve(parent, args){
+                return Van.findById(parent.vanId);
+            }
+        }
+    })
+});
+
 
  //Call Type
     const CallType = new GraphQLObjectType({
@@ -162,6 +186,16 @@ const UserType = new GraphQLObjectType({
 
 
 
+ const VanType = new GraphQLObjectType({
+    name: 'Van',
+    fields: () => ({
+        id:{ type: GraphQLID},
+        licensePlate:{ type: GraphQLString},
+        statusFill:{ type: GraphQLString},
+     
+    })
+});
+
 // Lead Type
 const LeadType = new GraphQLObjectType({
     name: 'Lead',
@@ -245,6 +279,37 @@ const LeadType = new GraphQLObjectType({
             }
 
         },
+        VanItem:{
+            type: new GraphQLList(VanItemType),
+            resolve(parent, args){
+                return VanItem.find();
+            }
+        },
+        VanItems:{
+            type: new GraphQLList(VanItemType),
+            args: {
+                vanId: { type: GraphQLNonNull(GraphQLID) }
+                },
+            resolve(parent, args){
+                return VanItem.find({ vanId: args.vanId });
+            }
+        },  
+        Van:{
+            type: VanType,
+            args: {
+                id: { type: GraphQLNonNull(GraphQLID) }
+                },
+            resolve(parent, args){
+                return Van.findById(args.id);
+            }
+        },
+        Vans:{
+            type: new GraphQLList(VanType),
+            resolve(parent, args){
+                return Van.find();
+            }
+        },
+    
         calls:{
             type: new GraphQLList(CallType),
             args: {
@@ -367,6 +432,12 @@ const mutation = new GraphQLObjectType({
             async resolve(parent, args) {
               
 
+                // Check if the email domain is @voltaicnow.com
+                if (!args.email.endsWith('@voltaicnow.com')) {
+                    throw new Error('Invalid email domain. Please use an @voltaicnow.com email address.');
+                }
+
+
                 const existingUser = await User.findOne({ email: args.email });
 
                 if(existingUser){
@@ -427,7 +498,6 @@ const mutation = new GraphQLObjectType({
 
                 return user.save();
             }},
-
 
             //Verify Email
           //Verify Email
@@ -629,6 +699,7 @@ const mutation = new GraphQLObjectType({
 
                 //Client.create(//fields) //could do it this way as well
             }},   
+
             
             updateLead: {
                 type: LeadType,
@@ -653,8 +724,34 @@ const mutation = new GraphQLObjectType({
                     throw new Error(`Error updating lead with ID ${id}`);
                   }
                 }
-              }
-,              
+              },
+              addVan: {
+                type: VanType,
+                args:{
+                    
+                    licensePlate:{ type: GraphQLNonNull(GraphQLString)}, 
+                    statusFill:{ type: GraphQLString}, 
+                
+                
+                },
+                async resolve(parent, args) {
+
+            
+                    try {
+
+                        const van = new Van(args);
+                        const result = await van.save();
+
+                          return result;
+                      } catch (error) {
+                        console.error(error);
+                     
+                        throw new Error("Error adding lead");
+                      }
+    
+                    //Client.create(//fields) //could do it this way as well
+                }}
+,
 
 
 
@@ -852,6 +949,34 @@ resolve(parent, args){
              return NewNote.save();
         }
        },
+
+
+
+       addVanItem:{
+        type: VanItemType,
+        args:{
+
+            itemId:{ type: GraphQLNonNull(GraphQLString)},
+        itemName:{ type: GraphQLNonNull(GraphQLString)},
+        itemDescription:{ type: GraphQLNonNull(GraphQLString)},
+        itemQuantity:{ type: GraphQLNonNull(GraphQLString)},
+        itemImage:{ type: GraphQLString},
+        vanId:{ type: GraphQLNonNull(GraphQLString)},
+           
+    },
+    
+    resolve(parent, args){
+            const NewVanItem = new VanItem({
+                itemId: args.itemId,
+                itemName: args.itemName,
+                itemDescription: args.itemDescription,
+                itemQuantity: args.itemQuantity,
+                itemImage: args.itemImage,
+                vanId: args.vanId,
+                });
+            return NewVanItem.save();
+    }
+    },
         //Delete a project
         deleteProject:{
            type: ProjectType,
