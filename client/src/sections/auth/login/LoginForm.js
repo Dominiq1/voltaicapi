@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
 
 import { LoadingButton } from '@mui/lab';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
 import { REGISTER_USER } from '../../../mutations/userMutations';
 import {GET_USERS} from '../../../queries/userQueries';
+
+import RequestButton from '../../../components/Buttons/RequestButton';
 
 
 
@@ -19,7 +21,7 @@ import Iconify from '../../../components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
+export default function LoginForm(props) {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -28,54 +30,98 @@ export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+
+  const { data, error } = useQuery(GET_USERS, {
+    fetchPolicy: "cache-and-network",
+  });
+  
+  if (error) {
+    console.log(`Error fetching users: ${error.message}`);
+  }
+  
+  // const [registerUser] = useMutation(REGISTER_USER, {
+  //   variables: { email, password },
+  //   onCompleted: (data, response, cache) => {
+  //     const { registerUser } = data;
+  //     const { users } = cache.readQuery({ query: GET_USERS });
+  //     cache.writeQuery({
+  //       query: GET_USERS,
+  //       data: { users: [...users, registerUser] },
+  //     });
+  //   }
+  // }
+  
+  // );
+  
+
+  const [registerUser] = useMutation(REGISTER_USER, {
+    variables: { email, password },
+    onCompleted: (data, response, cache) => {
+      const { registerUser } = data;
+      console.log(registerUser);
+      // const { users } = cache.readQuery({ query: GET_USERS });
+      
+      // cache.writeQuery({
+      //   query: GET_USERS,
+      //   data: { users: [...users, registerUser] },
+      // });
+    }
+  }
+  
+  );
+  const handleClick = () => {
+    registerUser()
+      .then((res) => {
+        console.log(res);
+        navigate('/nonverified', { replace: true });
+      })
+      .catch((err) => {
+        props.errorAlert(err);
+        console.log(err);
+      });
+  };
+  
+  
+  
+  
+  
+
+  // const [registerUser] = useMutation(REGISTER_USER, {
+  //   variables: { email, password },
+  //   onCompleted: (data, response, cache) => {
+  //     const { registerUser } = data;
+  //     const { users } = cache.readQuery({ query: GET_USERS });
+  //     cache.writeQuery({
+  //       query: GET_USERS,
+  //       data: { users: [...users, registerUser] },
+  //     });
+  //   }
+  // });
   
 
 
-  const [registerUser] = useMutation(REGISTER_USER, {
-    variables: { email, password},
-    update(cache, {data: {registerUser}}){
-      const {users} = cache.readQuery({
-        query: GET_USERS
-    });
-    cache.writeQuery({
-        query: GET_USERS,
-        data: {users: [...users, registerUser]},
-    });
-    }
-  });
+  
+  // const handleClick = () => {
+
+  //   registerUser({variables: {email, password}})
+  //   .then((res) => {
+  //     console.log(res);
 
 
-  const handleClick = () => {
-    // navigate('/dashboard', { replace: true });
-    // navigate('/verify', { replace: true });
-    navigate('/nonverified', { replace: true });
+  //   // Check the status of the registered user
+  //   navigate('/nonverified', { replace: true });
+
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
 
 
+  //     props.errorAlert(err);
+    
+  //   });
+    
 
-
-
-    registerUser({variables: {email, password}})
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-    // console.log(email)
-    // console.log(password)
-
- 
-
-
-
-
-
-
-
-
-
-
-  };
+  // };
 
   return (
     <>
@@ -107,9 +153,14 @@ export default function LoginForm() {
         </Link>
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" sx={{backgroundColor: 'black'}} onClick={handleClick}>
         Login
+         {/* <RequestButton message={props.message}/> */}
+        
       </LoadingButton>
+
+
+    
     </>
   );
 }

@@ -8,7 +8,7 @@ import { useDemoData } from '@mui/x-data-grid-generator';
 import { useState, useMemo } from 'react';
 import { GET_LEADS, NEW_LEAD_SUBSCRIPTION } from '../queries/leadQueries';
 
-import AddLeadModal from '../components/modals/AddLead';
+import AddIntentory from '../components/modals/RequestInventoryButton';
 import UsersActions from '../components/UsersActions';
 import AddNoteButton from '../components/modals/AddNoteButton'
 // @mui
@@ -19,8 +19,11 @@ import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashb
 import POSTS from '../_mock/blog';
 
 import DataGridProCSV from '../components/dataGrid/DataGridProDash';
+import IntenvtoryDatagrid from '../components/dataGrid/InventoryDatagrid';
 // ----------------------------------------------------------------------
 import UserModal from '../components/modals/UserModal';
+import AddVan from '../components/modals/AddVan';
+import AddVanItem from '../components/modals/AddVanItem';
 
 
 const SORT_OPTIONS = [
@@ -97,31 +100,33 @@ export default function BlogPage() {
   return (
     <>
       <Helmet>
-        <title> Leads </title>
+        <title> Inventory </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Leads 
+            Inventory 
           </Typography>
 
-      <AddLeadModal/>
+      {/* <AddIntentory/> */}
+{/* <AddVan/> */}
 
-      <AddNoteButton/>
+<AddVanItem/>
+  
       {/* <UserModal/> */}
 
         </Stack>
 
-        <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
+        {/* <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
           <BlogPostsSearch posts={POSTS} />
           <BlogPostsSort options={SORT_OPTIONS} />
-        </Stack>
+        </Stack> */}
 
 
 
 
-<DataGridProCSV onRowSelectionChange={(selectedRows) => setSelectedRows(selectedRows)} 
+<IntenvtoryDatagrid onRowSelectionChange={(selectedRows) => setSelectedRows(selectedRows)} 
  UserData={users}/>
 
 

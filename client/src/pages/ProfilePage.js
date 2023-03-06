@@ -130,7 +130,7 @@ useEffect(() => {
   return (
     <>
       <Helmet>
-        <title> Dashboard | Minimal UI </title>
+        <title> Voltaic </title>
       </Helmet>
 
       <Container maxWidth="xl">

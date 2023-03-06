@@ -1,8 +1,9 @@
 
-import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
+import { Link, Container, Typography, Divider, Stack, Button, Box } from '@mui/material';
 import { useMutation } from '@apollo/client';
 // @mui
 import { styled } from '@mui/material/styles';
+
 import { Helmet } from 'react-helmet-async';
 
 import { useState } from 'react';
@@ -18,6 +19,8 @@ import Logo from '../components/logo';
 import Iconify from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
+import logoImage from '../images/VC.png'
+
 
 // ----------------------------------------------------------------------
 
@@ -54,6 +57,13 @@ export default function LoginPage() {
 
 
 
+  const Alert = (message) => {
+
+alert("There was an error creating your account. Please contact admin.")
+    
+  }
+
+
 
 
   return (
@@ -62,28 +72,41 @@ export default function LoginPage() {
         <title> Login | RH -CRM </title>
       </Helmet>
 
-      <StyledRoot>
-        <Logo
+      <StyledRoot sx={{backgroundColor: 'gray'}}>
+
+
+    
+        {/* <Logo
           sx={{
             position: 'fixed',
             top: { xs: 16, sm: 24, md: 40 },
             left: { xs: 16, sm: 24, md: 40 },
           }}
-        />
+        /> */}
 
         {mdUp && (
           <StyledSection>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
               Hi, Welcome Back
             </Typography>
-            <img src="/assets/illustrations/illustration_login.png" alt="login" />
+
+            <Box style={{margin: '10px', width: '100px'}}>
+            <img src="/assets/illustrations/illustration_login.png" alt="login"  />
+            </Box>
+           
           </StyledSection>
         )}
 
         <Container maxWidth="sm">
           <StyledContent>
+
+<Box sx={{width: '100%'}}> 
+<img src={logoImage} alt="VC.PNG" style={{ paddingLeft: '1em',  width: 170, height: 30, cursor: 'pointer' }} />
+        
+</Box>
+      
             <Typography variant="h4" gutterBottom>
-              Sign in to RH-CRM
+              Sign in to Voltaic CRM
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 5 }}>
@@ -111,7 +134,7 @@ export default function LoginPage() {
               </Typography>
             </Divider>
 
-            <LoginForm />
+            <LoginForm errorAlert={Alert} />
           </StyledContent>
         </Container>
       </StyledRoot>

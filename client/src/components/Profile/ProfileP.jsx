@@ -140,7 +140,7 @@ export default function ProfileP({rowId}) {
   return (
     <>
       <Helmet>
-        <title> RE CRM </title>
+        <title> Voltaic </title>
       </Helmet>
 
       <Container maxWidth="xl" >

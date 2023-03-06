@@ -5,20 +5,21 @@ import SvgColor from '../../../components/svg-color';
 
 const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />;
 
+
 const navConfig = [
   {
     title: 'dashboard',
     path: '/dashboard/app',
     icon: icon('ic_analytics'),
   },
+  // {
+  //   title: 'Listings',
+  //   path: '/dashboard/products',
+  //   icon: icon('ic_cart'),
+  // },
   {
-    title: 'Listings',
-    path: '/dashboard/products',
-    icon: icon('ic_cart'),
-  },
-  {
-    title: 'Leads',
-    path: '/dashboard/leads',
+    title: 'Inventory',
+    path: '/dashboard/inventory',
     icon: icon('ic_van'),
   },
  

@@ -171,7 +171,7 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title> User | RE CRM </title>
+        <title> Voltaic</title>
       </Helmet>
 
       <Container>

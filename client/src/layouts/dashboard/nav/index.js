@@ -14,6 +14,7 @@ import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 //
 import navConfig from './config';
+import logoImage from '../../../images/VC.png';
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +55,10 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
-        <Logo />
+        
+        {/* <Logo /> */}
+        <img src={logoImage} alt="VC Logo" style={{ width: 150, height: 30, cursor: 'pointer' }} />
+    
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
@@ -81,11 +85,11 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
         <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-          <Box
+          {/* <Box
             component="img"
             src="/assets/illustrations/illustration_avatar.png"
             sx={{ width: 100, position: 'absolute', top: -50}}
-          />
+          /> */}
 
           <Box sx={{ textAlign: 'center' }}>
             <Typography gutterBottom variant="h6">
@@ -110,18 +114,22 @@ export default function Nav({ openNav, onCloseNav }) {
     <Box
       component="nav"
       sx={{
+        
         flexShrink: { lg: 0 },
         width: { lg: NAV_WIDTH },
       }}
     >
       {isDesktop ? (
         <Drawer
+
           open
           variant="permanent"
           PaperProps={{
             sx: {
+              
               width: NAV_WIDTH,
               bgcolor: 'background.default',
+              backgroundColor: 'black',
               borderRightStyle: 'dashed',
             },
           }}
@@ -130,13 +138,16 @@ export default function Nav({ openNav, onCloseNav }) {
         </Drawer>
       ) : (
         <Drawer
+        
           open={openNav}
           onClose={onCloseNav}
           ModalProps={{
             keepMounted: true,
           }}
           PaperProps={{
-            sx: { width: NAV_WIDTH },
+            sx: { 
+              backgroundColor: 'black',
+              width: NAV_WIDTH },
           }}
         >
           {renderContent}

@@ -1,10 +1,6 @@
-import { Outlet } from 'react-router-dom';
-// @mui
 import { styled } from '@mui/material/styles';
-// components
-import Logo from '../../components/logo';
-
-// ----------------------------------------------------------------------
+import { Outlet } from 'react-router-dom';
+import logoImage from '../../images/VC.png';
 
 const StyledHeader = styled('header')(({ theme }) => ({
   top: 0,
@@ -18,7 +14,11 @@ const StyledHeader = styled('header')(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
+const Logo = () => {
+  return (
+    <img src={logoImage} alt="VC.PNG" style={{ width: 40, height: 30, cursor: 'pointer' }} />
+  );
+};
 
 export default function SimpleLayout() {
   return (

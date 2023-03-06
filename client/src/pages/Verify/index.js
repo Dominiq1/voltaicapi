@@ -89,7 +89,7 @@ alert("Verifying email!");
   return (
     <>
       <Helmet>
-        <title> Verify | RH - CRM </title>
+        <title> Verify | Voltaic - CRM </title>
       </Helmet>
 
       <Container>
