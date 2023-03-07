@@ -171,7 +171,7 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title> Voltaic</title>
+        <title> Voltaic </title>
       </Helmet>
 
       <Container>
