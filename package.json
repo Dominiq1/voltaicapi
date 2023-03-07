@@ -2,7 +2,7 @@
   "name": "projectmanagement",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "node index.js",
   "scripts": {
     "start": "node Server/index.js",
     "dev": "nodemon Server/index.js"
