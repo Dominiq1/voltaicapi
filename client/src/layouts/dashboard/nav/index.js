@@ -93,12 +93,12 @@ export default function Nav({ openNav, onCloseNav }) {
 
           <Box sx={{ textAlign: 'center' }}>
             <Typography gutterBottom variant="h6">
-              Get more?
+              Voltaic Construction
             </Typography>
 
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            {/* <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               How' are you?
-            </Typography>
+            </Typography> */}
           </Box>
 
 

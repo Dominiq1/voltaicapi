@@ -24,6 +24,7 @@ import IntenvtoryDatagrid from '../components/dataGrid/InventoryDatagrid';
 import UserModal from '../components/modals/UserModal';
 import AddVan from '../components/modals/AddVan';
 import AddVanItem from '../components/modals/AddVanItem';
+import OrderInventory from '../components/modals/OrderInventory';
 
 
 const SORT_OPTIONS = [
@@ -113,6 +114,7 @@ export default function BlogPage() {
 {/* <AddVan/> */}
 
 <AddVanItem/>
+<OrderInventory/>
   
       {/* <UserModal/> */}
 

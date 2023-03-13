@@ -69,7 +69,7 @@ alert("There was an error creating your account. Please contact admin.")
   return (
     <>
       <Helmet>
-        <title> Login | RH -CRM </title>
+        <title> Voltaic  </title>
       </Helmet>
 
       <StyledRoot sx={{backgroundColor: 'gray'}}>

@@ -25,7 +25,9 @@ const Call = require('../models/Call');
 
 const VanItem = require('../models/VanItem');
 const Van = require('../models/Van');
+const Order = require('../models/order');
 
+const fetch = require('node-fetch');
 
 
 
@@ -95,6 +97,40 @@ const UserType = new GraphQLObjectType({
         }
     })
 });
+
+
+
+const OrderStatusType = new GraphQLEnumType({
+    name: 'OrderStatus',
+    values: {
+      PENDING: { value: 'pending' },
+      FILLED: { value: 'filled' }
+    }
+  });
+  
+  const OrderType = new GraphQLObjectType({
+    name: 'Order',
+    fields: () => ({
+      id: { type: GraphQLID },
+      orderId: { type: GraphQLString },
+      itemName: { type: GraphQLString },
+      itemDescription: { type: GraphQLString },
+      itemImages: { type: new GraphQLList(GraphQLString) },
+      quantity: { type: GraphQLString },
+      status: { type: GraphQLString },
+      van: {
+        type: VanType,
+        resolve(parent, args) {
+          return Van.findById(parent.vanId);
+        }
+      }
+    })
+  });
+  
+  
+
+
+
 
 
  //Call Type
@@ -196,6 +232,7 @@ const UserType = new GraphQLObjectType({
     })
 });
 
+
 // Lead Type
 const LeadType = new GraphQLObjectType({
     name: 'Lead',
@@ -279,6 +316,21 @@ const LeadType = new GraphQLObjectType({
             }
 
         },
+
+        order: {
+                type: OrderType,
+                args: { id: { type: GraphQLID } },
+                resolve(parent, args) {
+                  return Order.findById(args.id);
+                }
+              },
+       orders: {
+                type: new GraphQLList(OrderType),
+                resolve(parent, args) {
+                  return Order.find();
+                }
+              },
+        
         VanItem:{
             type: new GraphQLList(VanItemType),
             resolve(parent, args){
@@ -701,7 +753,7 @@ const mutation = new GraphQLObjectType({
             }},   
 
             
-            updateLead: {
+      updateLead: {
                 type: LeadType,
                 args: {
                   id: { type: GraphQLNonNull(GraphQLID) },
@@ -725,7 +777,7 @@ const mutation = new GraphQLObjectType({
                   }
                 }
               },
-              addVan: {
+        addVan: {
                 type: VanType,
                 args:{
                     
@@ -755,7 +807,7 @@ const mutation = new GraphQLObjectType({
 
 
 
-sendEmails: {
+    sendEmails: {
     type: new GraphQLList(EmailType),
     args: {
       emails: { type: GraphQLNonNull(new GraphQLList(GraphQLNonNull(GraphQLString))) },
@@ -796,7 +848,7 @@ sendEmails: {
   
       return emails;
     }
-  },
+        },
   
 
 
@@ -845,7 +897,7 @@ sendEmails: {
             },
         },
  //Add Call
- addCall:{
+        addCall:{
     type: CallType,
     args:{
         
@@ -888,7 +940,7 @@ resolve(parent, args){
 }
 
 
-},
+        },
          //Add EAlert
          addEAlert:{
             type: EAlertType,
@@ -950,7 +1002,159 @@ resolve(parent, args){
         }
        },
 
+       addOrder: {
+        type: OrderType,
+        args: {
+          orderId: { type: GraphQLNonNull(GraphQLString) },
+          itemName: { type: GraphQLNonNull(GraphQLString) },
+          itemDescription: { type: GraphQLNonNull(GraphQLString) },
+          itemImages: { type: new GraphQLList(GraphQLString) },
+          quantity: { type: GraphQLNonNull(GraphQLString) },
+          status: { type: GraphQLNonNull(GraphQLString) },
+          vanId: { type: GraphQLNonNull(GraphQLID) }
+        },
+        async resolve(parent, args) {
+          console.log('orderId:', args.orderId);
+          console.log('itemName:', args.itemName);
+          console.log('itemDescription:', args.itemDescription);
+          console.log('itemImages:', args.itemImages);
+          console.log('quantity:', args.quantity);
+          console.log('status:', args.status);
+          console.log('vanId:', args.vanId);
+      
+          //MAKE POST REQUEST TO QB API
+          const requestBody = {
+            "to": "bs5fcxiam",
+            "data": [
+              {
+                "6": {
+                  "value": args.itemName
+                },
+                "7": {
+                  "value": args.quantity
+                },
+                "9": {
+                  "value": args.itemDescription
+                },
+                "10": {
+                  "value": args.itemImages // update this based on your requirements
+                },
+                "8": {
+                    "value": args.status // update this based on your requirements
+                  }
+               
+              }
+            ],
+            "fieldsToReturn": [6,7,8,11]
+          };
+          
+          const options = {
+            method: 'POST',
+            headers: {
+              'Authorization': "QB-USER-TOKEN b7738j_mm72_0_d6r6badbrm2xkxdxica2mx5a7sz",
+              'QB-Realm-Hostname': "solarcrm.quickbase.com",
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+          };
+      
+          try{
+            const response = await fetch('https://api.quickbase.com/v1/records', options);
+            const data = await response.json();
+            console.log(data);
+          }catch(error){
+            console.log(error);
+          }
+      
+          const newOrder = new Order({
+            orderId: args.orderId,
+            itemName: args.itemName,
+            itemDescription: args.itemDescription,
+            itemImages: args.itemImages,
+            quantity: args.quantity,
+            status: args.status,
+            vanId: args.vanId
+          });
+          return newOrder.save();
+        }
+      },
+      
+    //    addOrder: {
+    //     type: OrderType,
+    //     args: {
+    //       orderId: { type: GraphQLNonNull(GraphQLString) },
+    //       itemName: { type: GraphQLNonNull(GraphQLString) },
+    //       itemDescription: { type: GraphQLNonNull(GraphQLString) },
+    //       itemImages: { type: new GraphQLList(GraphQLString) },
+    //       quantity: { type: GraphQLNonNull(GraphQLString) },
+    //       status: { type: OrderStatusType },
+    //       vanId: { type: GraphQLNonNull(GraphQLID) }
+    //     },
+    //     async resolve(parent, args) {
+    //         console.log('orderId:', args.orderId);
+    // console.log('itemName:', args.itemName);
+    // console.log('itemDescription:', args.itemDescription);
+    // console.log('itemImages:', args.itemImages);
+    // console.log('quantity:', args.quantity);
+    // console.log('status:', args.status);
+    // console.log('vanId:', args.vanId);
 
+
+    // //MAKE POST REQUEST TO QB API
+    // const requestBody = {
+    //     "to": "bs2pdnkkn",
+    //     "data": [
+    //         {
+    //             "6": {
+    //                 "value": args.itemName
+    //             },
+    //             "7": {
+    //                 "value": args.quantity
+    //             },
+    //             "9": {
+    //                 "value": args.vanId
+    //             },
+    //             "10": {
+    //                 "value": args.installDate // update this based on your requirements
+    //             },
+    //             "8": {
+    //                 "value": args.reimbursement // update this based on your requirements
+    //             }
+    //         }
+    //     ],
+    //     "fieldsToReturn": [6,7,8]
+    //   };
+    
+    //   const options = {
+    //     method: 'POST',
+    //     headers: {
+    //       'Authorization': "QB-USER-TOKEN b7738j_mm72_0_d6r6badbrm2xkxdxica2mx5a7sz",
+    //       'QB-Realm-Hostname': "solarcrm.quickbase.com",
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(requestBody)
+    //   };
+
+    // try{
+    //     const response = await fetch('https://api.quickbase.com/v1/records', options);
+    //     const data = await response.json();
+    //     console.log(data);
+    // }catch(error){
+    //     console.log(error);
+    // }
+
+    //       const newOrder = new Order({
+    //         orderId: args.orderId,
+    //         itemName: args.itemName,
+    //         itemDescription: args.itemDescription,
+    //         itemImages: args.itemImages,
+    //         quantity: args.quantity,
+    //         status: args.status,
+    //         vanId: args.vanId
+    //       });
+    //       return newOrder.save();
+    //     }
+    //   },
 
        addVanItem:{
         type: VanItemType,

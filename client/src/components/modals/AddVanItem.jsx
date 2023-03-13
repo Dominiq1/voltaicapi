@@ -115,7 +115,7 @@ export default function AddVanItem() {
     { uploadInProcess ?( <div>
  
  <Button variant="outlined" onClick={handleClickOpen}>
- Request Inventory
+ Order Inventory
  </Button>
  <Dialog open={open} onClose={handleClose}>
    <DialogTitle>New Lead Info</DialogTitle>
@@ -136,13 +136,13 @@ export default function AddVanItem() {
    </DialogContent>
    <DialogActions>
       <Button onClick={handleClose}>Cancel</Button> 
-    <Button onClick={() => setUploaded(false)}> Request Inventory</Button> 
+    <Button onClick={() => setUploaded(false)}> Order Inventory</Button> 
    </DialogActions>
  </Dialog>
 </div> ) : ( <div>
  
  <Button variant="outlined" onClick={handleClickOpen}>
- Request Inventory
+ Order Inventory
  </Button>
  <Dialog open={open} onClose={handleClose}>
    <DialogTitle>New Lead Info</DialogTitle>

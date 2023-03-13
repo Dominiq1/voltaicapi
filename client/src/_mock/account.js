@@ -2,7 +2,7 @@
 
 const account = {
   displayName: 'Dominiq Martinez',
-  email: 'unhashlabs@gmail@gmail.com',
+  email: 'dominiqmartinez@voltaicnow.com',
   photoURL: '/assets/images/avatars/avatar_default.jpg',
 };
 
