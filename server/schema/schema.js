@@ -1,5 +1,4 @@
  //Dependencies
-  const Project = require('../models/Project');
   const Client = require('../models/Client');
   const nodemailer = require('nodemailer');
   const jwt = require('jsonwebtoken');
@@ -61,24 +60,7 @@ const UserType = new GraphQLObjectType({
     })
 });
 
-// Project Type
- const ProjectType = new GraphQLObjectType({
 
-    name: 'Project',
-    fields: () => ({
-        id:{ type: GraphQLID}, 
-        name:{ type: GraphQLString}, 
-        description:{ type: GraphQLString}, 
-        status:{ type: GraphQLString}, 
-        client: {
-            type: ClientType,
-            resolve(parent, args){
-                return Client.findById(parent.clientId);
-            
-            }
-        }
-    })
- });
 
  const VanItemType = new GraphQLObjectType({
     name: 'VanItem',
@@ -309,14 +291,7 @@ const LeadType = new GraphQLObjectType({
         },
     
     
-        projects:{
-            type: new GraphQLList(ProjectType),
-            resolve(parent, args){
-                return Project.find();
-            }
-
-        },
-
+     
         order: {
                 type: OrderType,
                 args: { id: { type: GraphQLID } },
@@ -421,13 +396,7 @@ const LeadType = new GraphQLObjectType({
 
         },
 
-        project: {
-            type: ProjectType,
-            args: {id: { type: GraphQLID } },
-            resolve(parent, args){
-                return Project.findById(args.id);
-            }
-        },
+     
         clients:{
             type: new GraphQLList(ClientType),
             resolve(parent, args){
@@ -866,36 +835,6 @@ const mutation = new GraphQLObjectType({
         },
 
 
-        //Add project
-        addProject:{
-            type: ProjectType,
-            args:{
-                name: { type: GraphQLNonNull(GraphQLString)},
-                description: { type: GraphQLNonNull(GraphQLString)}, 
-                status: { 
-                    type: new GraphQLEnumType({
-                        name: 'ProjectStatus',
-                        values:{
-                            'new': {value :'Not Started'},
-                            'progress': {value :'Not Started'}, 
-                            'completed': {value :'Not Started'},  
-                        }
-                    }),
-                    defaultValue:'Not Started',
-
-                },  
-                clientId: {type: GraphQLNonNull(GraphQLID)},
-            },
-            resolve(parent, args){
-                const project = new Project({
-                    name: args.name,
-                    description:args.description,
-                    status: args.status,
-                    clientId: args.clientId,
-                });
-                return project.save();
-            },
-        },
  //Add Call
         addCall:{
     type: CallType,
@@ -1181,49 +1120,9 @@ resolve(parent, args){
             return NewVanItem.save();
     }
     },
-        //Delete a project
-        deleteProject:{
-           type: ProjectType,
-           args: {
-            id: {type : GraphQLNonNull(GraphQLID)},
-           } ,
-           resolve(parent, args){
-            return Project.findByIdAndRemove(args.id)
-           }
-
-        },
+        
   
-        //Update a project
-        updateProject:{ 
-            type: ProjectType,
-             args:{ 
-                id:{ type: GraphQLNonNull(GraphQLID)},
-                name: { type: GraphQLString }, 
-                description: {type: GraphQLString},
-                status: {
-                    type: new GraphQLEnumType({
-                        name:'ProjectStatusUpdate',
-                        values:{
-                            new: { value: 'Not Started'},
-                            progress: {value:  'In Progress'},
-                            completed: {value: 'Completed'},
-                        }
-                    }),
-                }
-             },
-             resolve(parent, args){
-                return  Project.findByIdAndUpdate( args.id,{ 
-                    $set:{ 
-                        name: args.name,
-                        description: args.description,
-                        status: args.status,
-
-                           },
-                           },
-                         {new: true}
-                         );
-                     }
-                    }
+    
                   }
 
 
