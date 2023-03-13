@@ -18,7 +18,7 @@ import { ADD_VAN_ITEM } from '../../mutations/addVanItem';
 export default function AddVanItem() {
 
 //   const [addLead, { loading, error, data }] = useMutation(ADD_LEAD);
-  const [addVaItem, {vanLoading, vanError, vanData}] = useMutation(ADD_VAN_ITEM);
+  const [addVanItem, {vanLoading, vanError, vanData}] = useMutation(ADD_VAN_ITEM);
 
   const [formData, setFormData] = useState({
     itemId: "",
@@ -74,15 +74,15 @@ export default function AddVanItem() {
 
     console.log(formData)
     e.preventDefault();
-    addVaItem({
+    addVanItem({
 
     variables: {
         itemId: "Hello", 
         itemName: "Hello", 
         itemDescription: "Hello",
-         itemQuantity: "Hello", 
-         itemImage: "Hello",
-          vanId: "64064e66fe9b22647414a812"
+        itemQuantity: "Hello", 
+        itemImage: "Hello",
+        vanId: "64064e66fe9b22647414a812"
         
     }
    

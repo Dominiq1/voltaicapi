@@ -178,7 +178,7 @@ export default function AddIntentory() {
   Request Inventory 
  </Button>
  <Dialog open={open} onClose={handleClose}>
-   <DialogTitle>New Lead Info</DialogTitle>
+   <DialogTitle>New Item Info</DialogTitle>
    <DialogContent>
      <DialogContentText>
        Tell us about your new lead!
