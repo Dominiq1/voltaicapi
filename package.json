@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "bson": "^5.0.1",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
