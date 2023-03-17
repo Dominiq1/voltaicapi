@@ -42,7 +42,7 @@ const path = require('path');
 const port = process.env.PORT || 5000;
 
 const app = express();
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 
 //Connect to database
@@ -55,7 +55,8 @@ app.use('/graphql', graphqlHTTP({
 }))
 
 
-// app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
@@ -67,7 +68,8 @@ app.use((err, req, res, next) => {
   //here is the magic
 
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'public','index.html'));
+  //  res.sendFile(path.resolve(__dirname, '..', 'public','index.html'));
+    res.sendFile(path.resolve(__dirname, '..', 'client','build'));
   });
   
 
