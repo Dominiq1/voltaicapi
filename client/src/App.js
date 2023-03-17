@@ -80,7 +80,7 @@ export default function App() {
       }
     }
   });
-  //    uri: 'http://localhost:5000/graphql',
+  //     uri: 'http://localhost:5000/graphql',
   const client = new ApolloClient({
     uri: '/graphql',
     cache,
