@@ -106,6 +106,8 @@ export default function Nav({ openNav, onCloseNav }) {
 
           <Button href="/login"  variant="contained">
            Log out
+
+           
           </Button> */}
         </Stack>
       </Box>
