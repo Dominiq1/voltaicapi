@@ -7,13 +7,13 @@
     "start": "node server/index.js",
     "dev": "nodemon server/index.js"
   },
-  "proxy" : "http://localhost:3000",
+  "proxy": "http://localhost:3000",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
-    "bson": "^5.0.1",
+    "bson": "^5.1.0",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
