@@ -99,12 +99,13 @@ export default function Nav({ openNav, onCloseNav }) {
             {/* <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               How' are you?
             </Typography> */}
+            
           </Box>
 
-
+{/* 
           <Button href="/login"  variant="contained">
            Log out
-          </Button>
+          </Button> */}
         </Stack>
       </Box>
     </Scrollbar>
