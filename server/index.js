@@ -13,7 +13,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 // Serve static files from the client build directory
-app.use(express.static(path.join(__dirname, 'client', '.next', 'static')));
+app.use(express.static(path.join(__dirname, '..', 'client', '.next', 'static')));
 
 //Connect to database
 connectDB();
