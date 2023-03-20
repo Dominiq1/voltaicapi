@@ -31,7 +31,7 @@ app.use((err, req, res, next) => {
 
 // Serve the built index.html file
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', '.next', 'server', 'pages', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'client', '.next'));
 });
 
 app.listen(port, console.log(`Server running on port ${port}`));
