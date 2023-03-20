@@ -17,7 +17,7 @@ const handle = nextApp.getRequestHandler();
 const app = express();
 
 // Serve static files from the client build directory
-app.use(express.static(path.join(__dirname, '..', 'client', '.next')));
+app.use(express.static(path.join(__dirname, '..', 'client', '.next', 'static')));
 
 //Connect to database
 connectDB();
@@ -33,10 +33,14 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
-// Serve the built index.html file
-app.get('*', (req, res) => {
-    return handle(req, res);
-});
+
+  //here is the magic
+
+  app.get('*', (req, res) => {
+    //  res.sendFile(path.resolve(__dirname, '..', 'public','index.html'));
+      res.sendFile(path.resolve(__dirname, '..', 'client','.next', 'pages', 'index.html'));
+    });
+    
 
 nextApp.prepare().then(() => {
   app.listen(port, console.log(`Server running on port ${port}`));
