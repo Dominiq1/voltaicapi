@@ -29,9 +29,4 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
-// Handle all other requests with Next.js
-app.get('*', (req, res) => {
-    return nextApp.render(req, res);
-});
-
 module.exports = app;
