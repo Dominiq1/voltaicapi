@@ -947,12 +947,13 @@ resolve(parent, args){
           orderId: { type: GraphQLNonNull(GraphQLString) },
           itemName: { type: GraphQLNonNull(GraphQLString) },
           itemDescription: { type: GraphQLNonNull(GraphQLString) },
-          itemImages: { type: new GraphQLList(GraphQLString) },
+          itemImages: { type:  GraphQLNonNull(GraphQLString) },
           quantity: { type: GraphQLNonNull(GraphQLString) },
           status: { type: GraphQLNonNull(GraphQLString) },
           vanId: { type: GraphQLNonNull(GraphQLID) }
         },
         async resolve(parent, args) {
+
           console.log('orderId:', args.orderId);
           console.log('itemName:', args.itemName);
           console.log('itemDescription:', args.itemDescription);
@@ -1002,6 +1003,7 @@ resolve(parent, args){
             const data = await response.json();
             console.log(data);
           }catch(error){
+            console.log('error');
             console.log(error);
           }
       
@@ -1018,82 +1020,7 @@ resolve(parent, args){
         }
       },
       
-    //    addOrder: {
-    //     type: OrderType,
-    //     args: {
-    //       orderId: { type: GraphQLNonNull(GraphQLString) },
-    //       itemName: { type: GraphQLNonNull(GraphQLString) },
-    //       itemDescription: { type: GraphQLNonNull(GraphQLString) },
-    //       itemImages: { type: new GraphQLList(GraphQLString) },
-    //       quantity: { type: GraphQLNonNull(GraphQLString) },
-    //       status: { type: OrderStatusType },
-    //       vanId: { type: GraphQLNonNull(GraphQLID) }
-    //     },
-    //     async resolve(parent, args) {
-    //         console.log('orderId:', args.orderId);
-    // console.log('itemName:', args.itemName);
-    // console.log('itemDescription:', args.itemDescription);
-    // console.log('itemImages:', args.itemImages);
-    // console.log('quantity:', args.quantity);
-    // console.log('status:', args.status);
-    // console.log('vanId:', args.vanId);
-
-
-    // //MAKE POST REQUEST TO QB API
-    // const requestBody = {
-    //     "to": "bs2pdnkkn",
-    //     "data": [
-    //         {
-    //             "6": {
-    //                 "value": args.itemName
-    //             },
-    //             "7": {
-    //                 "value": args.quantity
-    //             },
-    //             "9": {
-    //                 "value": args.vanId
-    //             },
-    //             "10": {
-    //                 "value": args.installDate // update this based on your requirements
-    //             },
-    //             "8": {
-    //                 "value": args.reimbursement // update this based on your requirements
-    //             }
-    //         }
-    //     ],
-    //     "fieldsToReturn": [6,7,8]
-    //   };
-    
-    //   const options = {
-    //     method: 'POST',
-    //     headers: {
-    //       'Authorization': "QB-USER-TOKEN b7738j_mm72_0_d6r6badbrm2xkxdxica2mx5a7sz",
-    //       'QB-Realm-Hostname': "solarcrm.quickbase.com",
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(requestBody)
-    //   };
-
-    // try{
-    //     const response = await fetch('https://api.quickbase.com/v1/records', options);
-    //     const data = await response.json();
-    //     console.log(data);
-    // }catch(error){
-    //     console.log(error);
-    // }
-
-    //       const newOrder = new Order({
-    //         orderId: args.orderId,
-    //         itemName: args.itemName,
-    //         itemDescription: args.itemDescription,
-    //         itemImages: args.itemImages,
-    //         quantity: args.quantity,
-    //         status: args.status,
-    //         vanId: args.vanId
-    //       });
-    //       return newOrder.save();
-    //     }
-    //   },
+ 
 
        addVanItem:{
         type: VanItemType,

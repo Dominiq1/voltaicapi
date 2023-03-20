@@ -10,19 +10,57 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CsvUpload from '../DropBoxes/CsvUpload';
-// import { ADD_LEAD } from '../../mutations/leadMutations';
+import { ADD_LEAD } from '../../mutations/leadMutations';
 
-import { ADD_VAN } from '../../mutations/addVan';
+export default function AddIntentory() {
 
-
-export default function AddVan() {
-
-//   const [addLead, { loading, error, data }] = useMutation(ADD_LEAD);
-  const [addVan, {vanLoading, vanError, vanData}] = useMutation(ADD_VAN);
+  const [addLead, { loading, error, data }] = useMutation(ADD_LEAD);
 
   const [formData, setFormData] = useState({
-    licensePlate: "",
-    statusFill: ""
+    firstName: "",
+    email: "",
+    lastName: "",
+    phone: "",
+    phoneStatus: "",
+    emailInvalid: "",
+    GloballyOptedOutOfEmail: "",
+    GloballyOptedOutOfBuyerAgentEmail: "",
+    GloballyOptedOutOfListingAgentEmail: "",
+    GloballyOptedOutOfLenderEmail: "",
+    GloballyOptedOutOfAlerts: '',
+    OptInDate: "",
+    BuyerAgentCategory: "",
+    ListingAgentCategory: "",
+    LenderCategory: "",
+    BuyerAgent: "",
+    ListingAgent: "",
+    Lender: "",
+    OriginalSource: "",
+    OriginalCampaign: "",
+    LastAgentNote: "",
+    eAlerts: "",
+    VisitTotal: "",
+    listingviewcount: "",
+    AvgListingPrice: "",
+    NextCallDue: "",
+    LastAgentCallDate: "",
+    LastLenderCallDate: "",
+    FirstVisitDate: "",
+    LastVisitDate: "",
+    RegisterDate: "",
+    LeadType: "",
+    AgentSelected: "",
+    LenderOptIn: "",
+    Address: "",
+    City: "",
+    State: "",
+    ZipCode: "",
+    Tags: "",
+    Link: "",
+    Birthday: "",
+    HomeClosingDate: "",
+
+
   });
 
   const [uploadInProcess, setUploaded] = useState(false);
@@ -70,24 +108,58 @@ export default function AddVan() {
 
     console.log(formData)
     e.preventDefault();
-    addVan({
-
-    variables: {
-        licensePlate: "kjsnfkjv",
-        statusFill: "false",
-    }
-   
+    addLead({
+      variables:formData,
     }).then((res) => {
 
       setFormData({
-        licensePlate: "",
-        statusFill: ""
-       
+        firstName: "",
+        email: "",
+        lastName: "",
+        phone: "",
+        phoneStatus: "",
+        emailInvalid: "",
+        GloballyOptedOutOfEmail: "",
+        GloballyOptedOutOfBuyerAgentEmail: "",
+        GloballyOptedOutOfListingAgentEmail: "",
+        GloballyOptedOutOfLenderEmail: "",
+        GloballyOptedOutOfAlerts: "",
+        OptInDate: "",
+        BuyerAgentCategory: "",
+        ListingAgentCategory: "",
+        LenderCategory: "",
+        BuyerAgent: "",
+        ListingAgent: "",
+        Lender: "",
+        OriginalSource: "",
+        OriginalCampaign: "",
+        LastAgentNote: "",
+        eAlerts: "",
+        VisitTotal: "",
+        listingviewcount: "",
+        AvgListingPrice: "",
+        NextCallDue: "",
+        LastAgentCallDate: "",
+        LastLenderCallDate: "",
+        FirstVisitDate: "",
+        LastVisitDate: "",
+        RegisterDate: "",
+        LeadType: "",
+        AgentSelected: "",
+        LenderOptIn: "",
+        Address: "",
+        City: "",
+        State: "",
+        ZipCode: "",
+        Tags: "",
+        Link: "",
+        Birthday: "",
+        HomeClosingDate: ""
       });
 
     console.log(res);
     setUploaded(false);
-    console.log("Van Submitted!");
+    console.log("Lead Submitted!");
 
     }).catch((err) => {
       
@@ -103,10 +175,10 @@ export default function AddVan() {
     { uploadInProcess ?( <div>
  
  <Button variant="outlined" onClick={handleClickOpen}>
- Add Van
+  Request Inventory 
  </Button>
  <Dialog open={open} onClose={handleClose}>
-   <DialogTitle>New Lead Info</DialogTitle>
+   <DialogTitle>New Item Info</DialogTitle>
    <DialogContent>
      <DialogContentText>
        Tell us about your new lead!
@@ -130,7 +202,7 @@ export default function AddVan() {
 </div> ) : ( <div>
  
  <Button variant="outlined" onClick={handleClickOpen}>
- Add Van
+  Request Inventory
  </Button>
  <Dialog open={open} onClose={handleClose}>
    <DialogTitle>New Lead Info</DialogTitle>
@@ -150,26 +222,26 @@ export default function AddVan() {
 <TextField
 autoFocus
 margin="dense"
-id="licensePlate"
-label="License Plate"
+id="firstName"
+label="Item Name"
 type="text"
 fullWidth
 variant="standard"
-name="licensePlate"
-value={formData.licensePlate}
+name="firstName"
+value={formData.firstName}
 onChange={handleChange}
 />
 
 <TextField
 autoFocus
 margin="dense"
-id="statusFill"
-label="Fill Status"
+id="email"
+label="Use Case"
 type="email"
 fullWidth
 variant="standard"
-name="statusFill"
-value={formData.statusFill}
+name="email"
+value={formData.email}
 onChange={handleChange}
 />
 
@@ -177,7 +249,7 @@ onChange={handleChange}
    </DialogContent>
    <DialogActions>
      <Button onClick={handleClose}>Cancel</Button>
-     <Button onClick={handleLeadSubmit}> Add Van</Button>
+     <Button onClick={handleLeadSubmit}> Request Inventory</Button>
    </DialogActions>
  </Dialog>
 </div>)}

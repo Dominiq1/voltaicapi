@@ -9,20 +9,21 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import CsvUpload from '../DropBoxes/CsvUpload';
-// import { ADD_LEAD } from '../../mutations/leadMutations';
-
-import { ADD_VAN } from '../../mutations/addVan';
+import { ADD_VAN_ITEM } from '@/gql/mutations/addVanItem';
 
 
-export default function AddVan() {
+export default function AddVanItem() {
 
 //   const [addLead, { loading, error, data }] = useMutation(ADD_LEAD);
-  const [addVan, {vanLoading, vanError, vanData}] = useMutation(ADD_VAN);
+  const [addVanItem, {vanLoading, vanError, vanData}] = useMutation(ADD_VAN_ITEM);
 
   const [formData, setFormData] = useState({
-    licensePlate: "",
-    statusFill: ""
+    itemId: "",
+    itemName: "",
+    itemDescription: "",
+    itemQuantity: "",
+    itemImage: "",
+    vanId: "",
   });
 
   const [uploadInProcess, setUploaded] = useState(false);
@@ -70,19 +71,27 @@ export default function AddVan() {
 
     console.log(formData)
     e.preventDefault();
-    addVan({
+    addVanItem({
 
     variables: {
-        licensePlate: "kjsnfkjv",
-        statusFill: "false",
+        itemId: "Hello", 
+        itemName: "Hello", 
+        itemDescription: "Hello",
+        itemQuantity: "Hello", 
+        itemImage: "Hello",
+        vanId: "64064e66fe9b22647414a812"
+        
     }
    
     }).then((res) => {
 
       setFormData({
-        licensePlate: "",
-        statusFill: ""
-       
+        itemId: "",
+        itemName: "",
+        itemDescription: "",
+        itemQuantity: "",
+        itemImage: "",
+        vanId: "",
       });
 
     console.log(res);
@@ -103,7 +112,7 @@ export default function AddVan() {
     { uploadInProcess ?( <div>
  
  <Button variant="outlined" onClick={handleClickOpen}>
- Add Van
+ Request Item
  </Button>
  <Dialog open={open} onClose={handleClose}>
    <DialogTitle>New Lead Info</DialogTitle>
@@ -124,7 +133,7 @@ export default function AddVan() {
    </DialogContent>
    <DialogActions>
       <Button onClick={handleClose}>Cancel</Button> 
-    <Button onClick={() => setUploaded(false)}> Request Inventory</Button> 
+    <Button onClick={() => setUploaded(false)}> Add Van</Button> 
    </DialogActions>
  </Dialog>
 </div> ) : ( <div>
@@ -133,10 +142,10 @@ export default function AddVan() {
  Add Van
  </Button>
  <Dialog open={open} onClose={handleClose}>
-   <DialogTitle>New Lead Info</DialogTitle>
+   <DialogTitle>New Item Info</DialogTitle>
    <DialogContent>
      <DialogContentText>
-       Tell us about your new lead!
+       Tell us about your new item!
      </DialogContentText>
 
 
@@ -144,40 +153,49 @@ export default function AddVan() {
  {CsvUpload()}
  </Button> */}
  
- 
 
 
 <TextField
 autoFocus
 margin="dense"
-id="licensePlate"
-label="License Plate"
+id="itemName"
+label="Item Name"
 type="text"
 fullWidth
 variant="standard"
-name="licensePlate"
+name="itemName"
+value={formData.itemName}
+onChange={handleChange}
+/>
+<TextField
+autoFocus
+margin="dense"
+id="itemDescription"
+label="Item Description"
+type="text"
+fullWidth
+variant="standard"
+name="itemDescription"
+value={formData.itemDescription}
+onChange={handleChange}
+/>
+<TextField
+autoFocus
+margin="dense"
+id="itemQuantity"
+label="Item Quantity"
+type="text"
+fullWidth
+variant="standard"
+name="itemQuantity"
 value={formData.licensePlate}
 onChange={handleChange}
 />
 
-<TextField
-autoFocus
-margin="dense"
-id="statusFill"
-label="Fill Status"
-type="email"
-fullWidth
-variant="standard"
-name="statusFill"
-value={formData.statusFill}
-onChange={handleChange}
-/>
-
-
    </DialogContent>
    <DialogActions>
      <Button onClick={handleClose}>Cancel</Button>
-     <Button onClick={handleLeadSubmit}> Add Van</Button>
+     <Button onClick={handleLeadSubmit}> Request Inventory</Button>
    </DialogActions>
  </Dialog>
 </div>)}

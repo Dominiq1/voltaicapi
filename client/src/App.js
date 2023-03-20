@@ -1,7 +1,7 @@
-// routes
+//  routes
 
 
-
+ 
 import { LicenseInfo } from '@mui/x-license-pro';
 import { InMemoryCache, ApolloClient, ApolloProvider, useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
@@ -49,8 +49,6 @@ export default function App() {
       
     }
   }, [])
-  
-
 
   const cache = new InMemoryCache({
     typePolicies:{
@@ -61,11 +59,6 @@ export default function App() {
               return incoming;
             },
           },
-          projects: {
-            merge(existing, incoming){
-              return incoming;
-            }
-          },
           leads: {
             merge(existing, incoming){
               return incoming;
@@ -75,7 +68,19 @@ export default function App() {
             merge(existing, incoming){
               return incoming;
             },
-          }
+          },
+          orders: {
+            merge(existing, incoming){
+              return incoming;
+            }
+          },
+          vans: {
+            merge(existing, incoming){
+              return incoming;
+            }
+          },
+        
+
         }
       }
     }
