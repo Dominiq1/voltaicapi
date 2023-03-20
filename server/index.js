@@ -34,24 +34,14 @@ app.use((err, req, res, next) => {
 });
 
 
-  //here is the magic
-
-  app.get('*', (req, res) => {
-    //  res.sendFile(path.resolve(__dirname, '..', 'public','index.html'));
-      res.sendFile(path.resolve(__dirname, '..', 'client','.next', 'pages', 'index.html'));
-    });
-    
+// Handle all other requests with Next.js
+app.all('*', (req, res) => {
+    return handle(req, res);
+});
 
 nextApp.prepare().then(() => {
   app.listen(port, console.log(`Server running on port ${port}`));
 });
-
-
-
-
-
-
-
 
 
 
