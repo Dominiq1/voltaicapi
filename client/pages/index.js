@@ -17,8 +17,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
 
-
-        <IntenvtoryDatagrid/>
+   
         {/* <div className={styles.description}>
           <p>
             Get started by editing&nbsp;
