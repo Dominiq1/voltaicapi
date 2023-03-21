@@ -71,8 +71,9 @@ export default function AddVanItem() {
 
     console.log(formData)
     e.preventDefault();
-    addVanItem({
 
+
+    addVanItem({
     variables: {
         itemId: "Hello", 
         itemName: "Hello", 
