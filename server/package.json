@@ -2,10 +2,11 @@
     "name": "projectmanagement",
     "version": "1.0.0",
     "description": "",
-    "main": "server/index.js",
     "engines": {
         "node": "18.2.0"
     },
+    "main": "server/index.js",
+    
     "scripts": {
         "start": "nodemon server/index.js"
        
